@@ -62,10 +62,11 @@ pacstrap -K /mnt base linux linux-firmware base-devel linux-headers sof-firmware
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
-cp setup_arch_chroot.sh /mnt/
-cp systemd-boot-config /mnt/
+mkdir -p /mnt/script
+cp setup_arch_chroot.sh /mnt/script/
+cp systemd-boot-config /mnt/script/
 
 # Chroot
-arch-chroot /mnt
+arch-chroot /mnt ./setup_arch_post.sh $part_3
 
-printf ${CYAN}"Pre Installation is finished\nPlease run second script.\n"
+printf ${CYAN}"Pre Installation is finished\n."

@@ -38,7 +38,7 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/Defaults:%wheel targetpw\n%wheel ALL=(ALL:
 bootctl install
 cp systemd-boot-config/loader.conf /boot/loader/loader.conf
 cp systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw" >> /boot/loader/entries/arch.conf
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rw" >> /boot/loader/entries/arch.conf
 
 # Enable NetworkManager
 systemctl enable NetworkManager.service
