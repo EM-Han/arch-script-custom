@@ -62,44 +62,10 @@ pacstrap -K /mnt base linux linux-firmware base-devel linux-headers sof-firmware
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
+cp setup_arch_chroot.sh /mnt/
+cp systemd-boot-config /mnt/
 
 # Chroot
 arch-chroot /mnt
 
-# Set timezone
-ln -sf /usr/share/zoneinfo/$time_zone /etc/localtime
-hwclock --systohc --utc
-
-# Set Localization
-sed -i 's/^#\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen
-locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-echo $host_name > /etc/hostname 
-
-# SSD only
-if [ "$discard_grain" != "0B" ] && [ -n "$discard_grain" ]; then
-    systemctl enable fstrim.timer
-fi
-
-# Set User
-useradd -m -G wheel -s /bin/bash $user_name
-
-# Password
-echo -e "$root_pass\n$root_pass" | passwd
-# User Pass
-echo -e "$user_pass\n$user_pass" | passwd $user_name
-
-# Edit sudoers
-sed -i '$a\\nDefaults targetpw' /etc/sudoers
-sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/Defaults:%wheel targetpw\n%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-# Systemd-boot Setup
-bootctl install
-cp systemd-boot-config/loader.conf /boot/loader/loader.conf
-cp systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value ${part_3}) rw" >> /boot/loader/entries/arch.conf
-
-# Enable NetworkManager
-systemctl enable NetworkManager.service
-
-printf ${CYAN}"Pre Installation is finished\n"
+printf ${CYAN}"Pre Installation is finished\nPlease run second script.\n"
