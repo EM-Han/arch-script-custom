@@ -33,9 +33,9 @@ echo -e "$user_pass\n$user_pass" | passwd $user_name
 sed -i '$a\\nDefaults targetpw' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/Defaults:%wheel targetpw\n%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-sudo umount /boot
-sed -i 's/\(^[^#].*\(defaults\)\)/\1,fmask=0137,dmask=0027/g' /etc/fstab
-sudo mount /boot
+# sudo umount /boot
+# sed -i '/\/boot/s/\(defaults\)\@<!\(defaults,[^,]*\)\@=/\2,fmask=0137,dmask=0027/g' /etc/fstab
+# sudo mount /boot
 
 # Systemd-boot Setup
 # PLEASE MAKE SURE /dev/sda3 --> root
