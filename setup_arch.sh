@@ -76,7 +76,7 @@ pacstrap -K /mnt base linux linux-firmware base-devel linux-headers $ucode sof-f
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 mkdir -p /mnt/script
-cp systemd-boot-config /mnt/script/
+cp -r systemd-boot-config /mnt/script/
 cp setup_arch_post.sh /mnt/script/
 
 # Chroot
