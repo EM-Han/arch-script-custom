@@ -77,8 +77,11 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 mkdir -p /mnt/script
 cp systemd-boot-config /mnt/script/
+cp setup_arch_post.sh /mnt/script/
 
 # Chroot
-arch-chroot /mnt ./setup_arch_post.sh $part_3
+arch-chroot /mnt /bin/bash /script/setup_arch_post.sh $part_3
+
+rm -fr /mnt/script
 
 printf ${CYAN}"Pre Installation is finished\n."

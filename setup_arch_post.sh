@@ -40,8 +40,8 @@ sudo mount /boot
 # Systemd-boot Setup
 # PLEASE MAKE SURE /dev/sda3 --> root
 bootctl install
-cp systemd-boot-config/loader.conf /boot/loader/loader.conf
-cp systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
+cp /script/systemd-boot-config/loader.conf /boot/loader/loader.conf
+cp /script/systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
 echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rw" >> /boot/loader/entries/arch.conf
 
 # Enable NetworkManager
