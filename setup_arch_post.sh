@@ -1,5 +1,5 @@
 #!/bin/bash
-time_zone="Europe/Zurich"
+time_zone="Europe/Istanbul"
 host_name="archlinux"
 user_name="han"
 root_pass="NONE"
@@ -32,6 +32,10 @@ echo -e "$user_pass\n$user_pass" | passwd $user_name
 # Edit sudoers
 sed -i '$a\\nDefaults targetpw' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/Defaults:%wheel targetpw\n%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
+sudo umount /boot
+sed -i 's/\(^[^#].*\(defaults\)\)/\1,fmask=0137,dmask=0027/g' /etc/fstab
+sudo mount /boot
 
 # Systemd-boot Setup
 # PLEASE MAKE SURE /dev/sda3 --> root
