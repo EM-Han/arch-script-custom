@@ -33,16 +33,15 @@ echo -e "$user_pass\n$user_pass" | passwd $user_name
 sed -i '$a\\nDefaults targetpw' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/Defaults:%wheel targetpw\n%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-# sudo umount /boot
-# sed -i '/\/boot/s/\(defaults\)\@<!\(defaults,[^,]*\)\@=/\2,fmask=0137,dmask=0027/g' /etc/fstab
-# sudo mount /boot
+sudo umount /boot
+sed -i '/\/boot/s/\(defaults\)\@<!\(defaults,[^,]*\)\@=/\2,fmask=0137,dmask=0027/g' /etc/fstab
+sudo mount /boot
 
 # Systemd-boot Setup
 # PLEASE MAKE SURE /dev/sda3 --> root
 bootctl install
 cp /script/systemd-boot-config/loader.conf /boot/loader/loader.conf
 cp /script/systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rw" >> /boot/loader/entries/arch.conf
-
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
 # Enable NetworkManager
 systemctl enable NetworkManager.service
