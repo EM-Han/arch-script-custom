@@ -11,10 +11,6 @@ time_zone="Europe/Istanbul"
 boot_size="+1G"
 swap_size="+4G"
 root_size="0"
-host_name="archlinux"
-user_name="han"
-root_pass="NONE"
-user_pass="NONE"
 ucode="intel-ucode"
 discard_grain=$(lsblk -ndo DISC-GRAN)
 
