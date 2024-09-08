@@ -42,6 +42,6 @@ sudo mount /boot
 bootctl install
 cp /script/systemd-boot-config/loader.conf /boot/loader/loader.conf
 cp /script/systemd-boot-config/arch.conf /boot/loader/entries/arch.conf
-echo -n "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $1) rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
 # Enable NetworkManager
 systemctl enable NetworkManager.service
