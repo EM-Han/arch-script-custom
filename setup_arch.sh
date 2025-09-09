@@ -12,24 +12,27 @@ boot_size="+1G"
 swap_size="+4G"
 root_size="0"
 ucode="intel-ucode"
+nvme=1
 discard_grain=$(lsblk -ndo DISC-GRAN)
 
 # Partition naming
+if [ "$nvme" -eq 1 ]; then
+part_1="${disk_device}p1"
+part_2="${disk_device}p2"
+part_3="${disk_device}p3"
+else
 part_1="${disk_device}1"
 part_2="${disk_device}2"
 part_3="${disk_device}3"
+fi
+# Set timedatectl
 
 # Set timedatectl
 timedatectl set-ntp true
 timedatectl set-timezone $time_zone
 
-
 # Parition Drive
 
-# Layout:
-# 1 GB - Boot /dev/sda1
-# 4 GB - Swap /dev/sda2
-# Rest - Root /dev/sda3
 sgdisk --zap-all $disk_device
 sgdisk --new=1:0:$boot_size --typecode=1:EF00 $disk_device
 sgdisk --new=2:0:$swap_size --typecode=2:8200 $disk_device
@@ -73,10 +76,10 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 mkdir -p /mnt/script
 cp -r systemd-boot-config /mnt/script/
-cp setup_arch_post.sh /mnt/script/
+cp setup_inner.sh /mnt/script/
 
 # Chroot
-arch-chroot /mnt /bin/bash /script/setup_arch_post.sh $part_3
+arch-chroot /mnt /bin/bash /script/setup_inner.sh $part_3
 
 rm -fr /mnt/script
 

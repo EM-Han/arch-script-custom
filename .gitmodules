@@ -1,0 +1,3 @@
+[submodule "hyprsetup"]
+	path = hyprsetup
+	url = https://github.com/ifeelikeabit/hyprsetup

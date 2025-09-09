@@ -1,7 +1,9 @@
 #!/bin/bash
+
+
 time_zone="Europe/Istanbul"
 host_name="archlinux"
-user_name="han"
+user_name="esat"
 root_pass="NONE"
 user_pass="NONE"
 discard_grain=$(lsblk -ndo DISC-GRAN)
